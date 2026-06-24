@@ -1,21 +1,21 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: tienda-backend
+  name: tienda-perritos-backend
   namespace: tienda
 spec:
   replicas: 2
   selector:
     matchLabels:
-      app: tienda-backend
+      app: tienda-perritos-backend
   template:
     metadata:
       labels:
-        app: tienda-backend
+        app: tienda-perritos-backend
     spec:
       containers:
         - name: backend
-          image: 542768639545.dkr.ecr.us-east-1.amazonaws.com/tienda-backend:eks-v1 # Colocar uri de tu imagen en ECR
+          image: 604675560959.dkr.ecr.us-east-1.amazonaws.com/tienda-perritos-backend:eks-v1 # Colocar uri de tu imagen en ECR
           ports:
             - containerPort: 3001
           env:
