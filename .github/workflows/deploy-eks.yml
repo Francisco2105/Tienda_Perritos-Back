@@ -6,7 +6,7 @@ on:
   workflow_dispatch: {}
 
 env:
-  ECR_REPO_BACKEND: backend
+  ECR_REPO_BACKEND: tienda-perritos-backend
 
 jobs:
   build-and-deploy:
@@ -61,7 +61,7 @@ jobs:
           kubectl apply -f k8s-backend/backend-service.yaml -n $EKS_NAMESPACE
           kubectl apply -f k8s-backend/backend-hpa.yaml -n $EKS_NAMESPACE
           
-          kubectl set image deployment/tienda-backend \
+          kubectl set image deployment/tienda-perritos-backend \
             backend=$ECR_REGISTRY/${ECR_REPO_BACKEND}:${IMAGE_TAG} \
             -n $EKS_NAMESPACE
-          kubectl rollout status deployment/tienda-backend -n $EKS_NAMESPACE
+          kubectl rollout status deployment/tienda-perritos-backend -n $EKS_NAMESPACE
