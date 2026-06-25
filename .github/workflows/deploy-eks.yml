@@ -56,16 +56,17 @@ jobs:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
           EKS_NAMESPACE: ${{ secrets.EKS_NAMESPACE }}
         run: |
+          # Aplicar configuraciones base
           kubectl apply -f k8s-backend/namespace.yaml
           kubectl apply -f k8s-backend/backend-deployment.yaml -n $EKS_NAMESPACE
-          kubectl apply -f k8s-backend/backend-service.yaml -n $EKS_NAMESPACE
-          kubectl apply -f k8s-backend/backend-hpa.yaml -n $EKS_NAMESPACE
           
+          # Actualizar la imagen de forma segura
           kubectl set image deployment/tienda-perritos-backend \
             backend=$ECR_REGISTRY/${ECR_REPO_BACKEND}:${IMAGE_TAG} \
             -n $EKS_NAMESPACE
+            
+          # Esperar a que el despliegue termine correctamente
           kubectl rollout status deployment/tienda-perritos-backend -n $EKS_NAMESPACE
-          
       - name: Diagnosticar despliegue antes de actualizar
         env:
           EKS_NAMESPACE: ${{ secrets.EKS_NAMESPACE }}
