@@ -65,3 +65,10 @@ jobs:
             backend=$ECR_REGISTRY/${ECR_REPO_BACKEND}:${IMAGE_TAG} \
             -n $EKS_NAMESPACE
           kubectl rollout status deployment/tienda-perritos-backend -n $EKS_NAMESPACE
+          
+      - name: Diagnosticar despliegue antes de actualizar
+        env:
+          EKS_NAMESPACE: ${{ secrets.EKS_NAMESPACE }}
+        run: |
+          echo "Buscando despliegues en el namespace: $EKS_NAMESPACE"
+          kubectl get deployments -n $EKS_NAMESPACE
